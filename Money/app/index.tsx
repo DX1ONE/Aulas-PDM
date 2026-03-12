@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, TextInput, Button} from "reac
 import { titulo } from "../utils/util"; 
 import textoDefault from "../utils/util"; // Importando o export default
 import React, { useState } from "react";
+import { Image } from 'expo-image';
 
 import { rotulo_input_meta, rotulo_btn_cadastro_meta, rotulo_lista_metas } from "./mensagens";
 
@@ -18,34 +19,39 @@ export default function MoneyApp() {
   };
 
   return (
-    <View style={styles.mainContainer}>
-      
-      <View style={styles.containerInput}>
-  <TextInput 
-    style={styles.inputText}
-    placeholder={rotulo_input_meta}
-    value={metaDigitada}
-    onChangeText={setMetaDigitada} 
-  />
-    
-      <TouchableOpacity style={styles.botao} onPress={adicionarMeta}>
-      <Text style={styles.textoBotao}>{rotulo_btn_cadastro_meta}</Text>
-      </TouchableOpacity>
+    <View style={styles.containerPrincipal}>
+      {/* BARRA SUPERIOR CONGELADA */}
+      <View style={styles.header}>
+        <Image 
+          source={require('../assets/images/icon.png')} // Ajuste o caminho para sua logo
+          style={styles.logo}
+          contentFit="contain"
+        />
+        <Text style={styles.headerTitle}>Money</Text>
       </View>
 
+      {/* CONTEÚDO QUE ROLA ABAIXO DA BARRA */}
+      <ScrollView contentContainerStyle={styles.mainContainer}>
+        <View style={styles.containerInput}>
+          <TextInput 
+            style={styles.inputText}
+            placeholder={rotulo_input_meta}
+            value={metaDigitada}
+            onChangeText={setMetaDigitada} 
+          />
+          <TouchableOpacity style={styles.botao} onPress={adicionarMeta}>
+            <Text style={styles.textoBotao}>{rotulo_btn_cadastro_meta}</Text>
+          </TouchableOpacity>
+        </View>
 
-      <Text style={styles.labelLista}>
-        {rotulo_lista_metas}
-      </Text>
+        <Text style={styles.labelLista}>{rotulo_lista_metas}</Text>
 
-      {/*  Bloco para mostrar os itens na tela */}
-      <View style={{ marginTop: 10 }}>
         {listaMetas.map((item, index) => (
           <View key={index} style={styles.itemMeta}>
             <Text>• {item}</Text>
           </View>
         ))}
-      </View>
+      </ScrollView>
     </View>
   );
 }
